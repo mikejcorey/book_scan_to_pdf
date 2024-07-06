@@ -42,7 +42,7 @@ def crop_to_white_boundary_imutils(img_path, cropped_path):
         return False
     
     # Check to see how big the warped image is
-    if warped.shape[0] >= 50 and warped.shape[1] >= 50:
+    if warped.shape[0] >= 700 and warped.shape[1] >= 700:
         cv2.imwrite(cropped_path, warped, [cv2.IMWRITE_JPEG_QUALITY, 80])
         return cropped_path
 

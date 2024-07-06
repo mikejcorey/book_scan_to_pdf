@@ -3,7 +3,7 @@ import glob
 import img2pdf
 from multiprocessing.pool import ThreadPool
 
-from utils.folder_ops import locate_raw_images, create_folders
+from utils.folder_ops import locate_raw_images, create_folders, replace_manual_pages
 from utils.image_manipulation import rotate_and_crop_image
 
 from dotenv import load_dotenv
@@ -29,7 +29,12 @@ def main():
     pool = ThreadPool(processes=NUM_THREADS)
     pool.map(rotate_and_crop_image, pages_to_process_multi)
 
+
+    # If you just need to add some manual pages and re-export the PDF, comment out what is above and start here.
     cropped_pages = sorted(glob.glob(os.path.join(BOOK_ROOT, 'cropped_pages', '*.jpg')))
+
+    # Find and replace manual pages
+    cropped_pages = replace_manual_pages(BOOK_ROOT, cropped_pages)
 
     pdf_filename = f"{BOOK_ROOT.split('/')[-1]}.pdf"
     final_pdf_path = os.path.join(BOOK_ROOT, 'pdf', pdf_filename)
